@@ -23,6 +23,7 @@
 #include "cuda_secp256k1.cuh"
 #include "cuda_hash.cuh"
 #include "cuda_utils.h"
+#include "cuda_wif.h"
 
 // Configuration
 #define THREADS_PER_BLOCK 256
@@ -438,10 +439,18 @@ int main(int argc, char** argv) {
         }
         std::cout << std::endl;
         
+        // Generate WIF
+        char wif[52];
+        generate_wif(priv_hex, true, wif);  // true = compressed
+        std::cout << "WIF           : " << wif << std::endl;
+        
         std::cout << "Hash160       : ";
         for (int i = 0; i < 20; i++) {
             printf("%02x", h_result.hash160[i]);
         }
+        std::cout << std::endl;
+        
+        std::cout << "P2PKH Address : " << target_address << std::endl;
         std::cout << std::endl;
         
         std::cout << "P2PKH Address : " << target_address << std::endl;
