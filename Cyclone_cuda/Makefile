@@ -1,22 +1,15 @@
-# Makefile for building Cyclone project
+# Makefile for Cyclone CUDA
 
-# Compiler settings
-CC = nvcc
+# CUDA version and architecture settings
+CUDA_VERSION ?= 12.9
+CUDA_ARCH = sm_89
 
-# Architecture settings for RTX 5060
-TARGET_ARCH = sm_89
+# Rules for building...
 
-# Source files
-SRC = main.cu helper.cu
+all: main
 
-# Output binary
-OUTPUT = cyclone
+main: main.o
+	$(NVCC) -o main main.o
 
-# Build target
-all: $(OUTPUT)
-
-$(OUTPUT): $(SRC)
-	$(CC) -arch $(TARGET_ARCH) $(SRC) -o $(OUTPUT)
-
-clean:
-	rm -f $(OUTPUT) *.o
+main.o: main.cu
+	$(NVCC) -c main.cu
