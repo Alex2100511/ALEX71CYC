@@ -1,11 +1,22 @@
-# Updated Makefile for CUDA 12.9 support
+# Makefile for building Cyclone project
 
-# CUDA architecture settings
-CUDA_ARCH = sm_89
+# Compiler settings
+CC = nvcc
 
-# Updated default CUDA flags for RTX 5060
-CUDA_FLAGS = -arch=$(CUDA_ARCH) -lcudadevrt -lcudart
+# Architecture settings for RTX 5060
+TARGET_ARCH = sm_89
 
-# Add any additional configurations or library links required.
+# Source files
+SRC = main.cu helper.cu
 
-# Other content remains unchanged...
+# Output binary
+OUTPUT = cyclone
+
+# Build target
+all: $(OUTPUT)
+
+$(OUTPUT): $(SRC)
+	$(CC) -arch $(TARGET_ARCH) $(SRC) -o $(OUTPUT)
+
+clean:
+	rm -f $(OUTPUT) *.o
