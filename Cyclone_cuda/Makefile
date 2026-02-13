@@ -1,15 +1,21 @@
-# Makefile for Cyclone CUDA
+# Makefile for building the Cyclone CUDA Project
 
-# CUDA version and architecture settings
-CUDA_VERSION ?= 12.9
+# Set CUDA architecture
 CUDA_ARCH = sm_89
+# Set source files
+SRC = main.cu utils.cu
+# Set output executable
+OUTPUT = cyclone
+# Set compiler
+NVCC = nvcc
+# Set compiler flags
+NVCC_FLAGS = -arch $(CUDA_ARCH) -O3
 
-# Rules for building...
+# Define build targets
+all: $(OUTPUT)
 
-all: main
+$(OUTPUT): $(SRC)
+	$(NVCC) $(NVCC_FLAGS) -o $(OUTPUT) $(SRC)
 
-main: main.o
-	$(NVCC) -o main main.o
-
-main.o: main.cu
-	$(NVCC) -c main.cu
+clean:
+	rm -f $(OUTPUT)
